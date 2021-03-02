@@ -16,14 +16,21 @@ public class Board implements Cloneable {
      * Construct a new board that is filled in completely with spaces.
      */
     public Board() {
-        // TODO
+        for (int i = 0 ; i < this.board.length; i++){
+            for(int j = 0 ; j < this.board.length ; j++)
+            {
+                this.board[i][j] = ' ';
+                }
+            }
     }
 
     /**
      * Construct a new board that is filled in with the same contents of the other board.
      */
     public Board(Board board) {
-        // TODO
+        for (int i = 0 ; i < this.board.length; i++){
+            System.arraycopy(board.board[i], 0, this.board[i], 0, this.board.length);
+        } // use System.arraycopy() to copy a given Board object's board array.
     }
 
     /**
@@ -33,8 +40,7 @@ public class Board implements Cloneable {
      * @return one of 'X', 'O', or ' '
      */
     public char getPiece(int r, int c) {
-        // TODO
-        return '?';
+        return this.board[r][c];
     }
 
     /**
@@ -44,8 +50,7 @@ public class Board implements Cloneable {
      * @return same as getPiece(r, c) == ' '
      */
     public boolean isLocationEmpty(int r, int c) {
-        // TODO
-        return false;
+        return this.board[r][c] == ' ';
     }
 
     /**
@@ -54,8 +59,15 @@ public class Board implements Cloneable {
      * @return the number of those pieces on the board
      */
     public int countPieces(char piece) {
-        // TODO
-        return 0;
+        int pieceCount = 0;
+        for (char[] chars : this.board) { // iterate over each character array in the board
+            for (int j = 0; j < this.board.length; j++) { // then iterate over each character in the array
+                if (chars[j] == piece) {
+                    pieceCount++;
+                }
+            }
+        }
+        return pieceCount;
     }
 
     /**
@@ -66,7 +78,10 @@ public class Board implements Cloneable {
      * @return true if the space was empty and the play was successful, false otherwise
      */
     public boolean playPiece(int r, int c, char piece) {
-        // TODO
+        if (!isGameOver() && this.board[r][c] == ' '){
+            this.board[r][c] = piece;
+            return true;
+        }
         return false;
     }
 
@@ -75,8 +90,15 @@ public class Board implements Cloneable {
      * @return true if the player with the given piece has won, false otherwise
      */
     public boolean hasWon(char piece) {
-        // TODO
-        return false;
+        for(int i = 0 ; i < this.board.length; i++){
+            if (board[i][0] == piece && board[i][1] == piece && board[i][2] == piece) //checking the ith row for a win
+                return true;
+            if (board[0][i] == piece && board[1][i] == piece && board[2][i] == piece) //checking the ith column for a win
+                return true;
+        }
+
+        return board[0][0] == piece && board[1][1] == piece && board[2][2] == piece ||
+                board[2][0] == piece && board[1][1] == piece && board[0][2] == piece; // checking diagonals
     }
 
     /**
@@ -84,16 +106,20 @@ public class Board implements Cloneable {
      * has won
      */
     public boolean hasTied() {
-        // TODO
-        return false;
+        for (int i = 0; i < this.board.length; i++){
+            for (int j = 0; j < this.board.length; j++){
+                if (isLocationEmpty(i,j))
+                    return false;
+            }
+        }
+        return !hasWon('X') && !hasWon('O');
     }
 
     /**
      * @return true if X or O has won or the game is tied
      */
     public boolean isGameOver() {
-        // TODO
-        return false;
+        return (hasWon('X') || hasWon('O') || hasTied());
     }
 
 

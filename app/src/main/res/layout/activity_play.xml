@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/difficultyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.16000003" />
+
+    <TableLayout
+        android:id="@+id/ticTacToeBoard"
+        android:layout_width="394dp"
+        android:layout_height="381dp"
+        android:foreground="@drawable/board_image"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="96dp">
+
+            <ImageButton
+                android:id="@+id/r0c0"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:background="#070707" />
+
+            <Button
+                android:id="@+id/r0c1"
+                android:layout_width="130dp"
+                android:layout_height="130dp" />
+
+            <Button
+                android:id="@+id/r0c2"
+                android:layout_width="130dp"
+                android:layout_height="130dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <Button
+                android:id="@+id/r1c0"
+                android:layout_width="130dp"
+                android:layout_height="130dp" />
+
+            <Button
+                android:id="@+id/r1c1"
+                android:layout_width="130dp"
+                android:layout_height="130dp" />
+
+            <Button
+                android:id="@+id/r1c2"
+                android:layout_width="130dp"
+                android:layout_height="130dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="37dp">
+
+            <Button
+                android:id="@+id/r2c0"
+                android:layout_width="130dp"
+                android:layout_height="130dp" />
+
+            <Button
+                android:id="@+id/r2c1"
+                android:layout_width="130dp"
+                android:layout_height="130dp" />
+
+            <Button
+                android:id="@+id/r2c2"
+                android:layout_width="130dp"
+                android:layout_height="130dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,7 +14,12 @@ public class MediumAI extends AI {
      */
     @Override
     public void play(Board board, char piece) {
-        // TODO
-        playRandomMove(board, piece);
+        char opponent = oppositePiece(piece);
+
+        int[] location = findWin(board, piece); //taken from hard ai class: will find a win or block a win
+        if (location == null) { location = findWin(board, opponent);  }
+        if (location != null) { board.playPiece(location[0], location[1], piece); return; }
+
+        playRandomMove(board, piece); //finally plays random
     }
 }

@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Tic-Tac-Toe</string>
+    <string name="welcome">Welcome to…</string>
+    <string name="start_button">Start</string>
+    <string name="choose_difficulty">Choose difficulty</string>
+    <string name="easy">easy</string>
+    <string name="medium">medium</string>
+    <string name="hard">hard</string>
+    <string name="play_again">Play Again</string>
+    <string name="game_over">Game Over!</string>
+    <string name="player_wins">Player Wins: </string>
+    <string name="ai_wins">AI Wins: </string>
+    <string name="ties">Player Wins: </string>
+    <string name="loss">You LOST!</string>
+    <string name="win">You WON!</string>
+    <string name="tie">TIED!?</string>
+
+
+
+
 </resources>

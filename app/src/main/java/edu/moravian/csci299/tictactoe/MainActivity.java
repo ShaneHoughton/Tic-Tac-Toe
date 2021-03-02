@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         spinner = findViewById(R.id.diffLevelSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, diffLevels);
+                this, R.layout.spinner_item, diffLevels);
         spinner.setGravity(Gravity.CENTER);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

@@ -32,11 +32,10 @@
             android:layout_width="wrap_content"
             android:layout_height="96dp">
 
-            <ImageButton
+            <Button
                 android:id="@+id/r0c0"
                 android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:background="#070707" />
+                android:layout_height="130dp" />
 
             <Button
                 android:id="@+id/r0c1"

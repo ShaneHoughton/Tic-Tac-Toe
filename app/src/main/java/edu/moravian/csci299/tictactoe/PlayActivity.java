@@ -19,133 +19,213 @@ import java.util.List;
 
 public class PlayActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final static int [][] gameButtonIds = new int[][]{
+    private final static int[][] BOARD_BUTTON_IDS = new int[][]{
             {R.id.r0c0, R.id.r0c1, R.id.r0c2},
             {R.id.r1c0, R.id.r1c1, R.id.r1c2},
             {R.id.r2c0, R.id.r2c1, R.id.r2c2}
     };
 
-    private Game game = new Game();
+    private Game gameModel;
+    private String difficulty;
 
+    /**
+     * Creates gameModel from ViewModelProvider and sets difficulty from intent extra.
+     * Updates Difficulty Text, listens for clicks on all Board Buttons,
+     * initializes gameModel, and updates the Board.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        String difficulty = getIntent().getStringExtra("difficulty");
-        Log.e("PlayActivity", "got intent");
+        gameModel = new ViewModelProvider(this).get(Game.class);
+        difficulty = getIntent().getStringExtra("difficulty");
 
-        makeButtons(gameButtonIds);
-
-        AI ai;
-
-        switch (difficulty) {
-            case "easy":
-                ai = new EasyAI();
-                break;
-            case "medium":
-                ai = new MediumAI();
-                break;
-            case "hard":
-                ai = new HardAI();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + difficulty);
-        }
-        game.setAI(ai);
-        game.startNewRound();
-        updateBoard();
+        updateDifficultyTextView();
+        addOnClickListenersToBoardButtons();
+        initializeGameModel();
+        updateAllSquares();
+        checkIsGameOver();
     }
 
+    /**
+     * Used to start a new game after the EndActivity has finished
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    /** Creates buttons by iterating over a list of buttons.
-     * As each button is created setOnClickListener is called.
-     * @param IdList a list of Ids which are used to create Button objects*/
-    public void makeButtons(int [][] IdList){
+        gameModel.startNewRound();
+        updateAllSquares();
+        checkIsGameOver();
+    }
 
-        for (int[] ints : IdList) {
-            for (int j = 0; j < IdList.length; j++) {
-                ImageButton button = findViewById(ints[j]);
-                button.setOnClickListener(this);
+    @Override
+    public void onClick(View v) { /* IGNORE */}
+
+    /**
+     * Updates the Difficulty TextView to display the difficulty.
+     */
+    private void updateDifficultyTextView() {
+        String s = difficulty.substring(0, 1).toUpperCase() + difficulty.substring(1) + " Mode";
+
+        TextView v = findViewById(R.id.difficultyText);
+        v.setText(s);
+    }
+
+    /**
+     * Sets the OnClickListener for every Board Button.
+     */
+    private void addOnClickListenersToBoardButtons() {
+        for (int row = 0; row < BOARD_BUTTON_IDS.length; row++) {
+            for (int col = 0; col < BOARD_BUTTON_IDS[row].length; col++) {
+                addOnClickListenerToBoardButton(BOARD_BUTTON_IDS[row][col], row, col);
             }
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        //TODO: make the buttons change icons depending on whether a player clicks them or if the AI does
-        int id = v.getId();
+    /**
+     * Sets AI and starts new round if game hasn't started yet.
+     */
+    private void initializeGameModel() {
+        if (!gameModel.hasStarted())
+        {
+            gameModel.setAI(createAIFromDifficulty(difficulty));
+            gameModel.startNewRound();
+        }
+    }
 
-        if(game.hasStarted()) {
-            for (int i = 0; i < gameButtonIds.length; i++) {
-                for (int j = 0; j < gameButtonIds.length; j++) {
-                    if (id == gameButtonIds[i][j]) {
-                        if (game.playPiece(i, j)) {
-                            updateBoard();
-                            break;
-                        }
+    /**
+     * Creates and returns an instance of an AI subclass.
+     * based on the difficulty specified.
+     * @param difficulty A String containing the difficulty value.
+     * @return An AI object for the respective difficulty.
+     */
+    private AI createAIFromDifficulty(String difficulty)
+    {
+        switch (difficulty) {
+            case "easy":
+                return new EasyAI();
+            case "medium":
+                return new MediumAI();
+            case "hard":
+                return new HardAI();
+            default:
+                throw new IllegalStateException("Unexpected difficulty value: " + difficulty);
+        }
+    }
+
+    /**
+     * Adds an onClickListener to a Board Button.
+     * The listener checks if the game has started and
+     * tries to place a piece on the square the button represents.
+     * If the piece was able to be placed it then updates the board.
+     * @param id id of the Board Button.
+     * @param row row that the Board Button is in.
+     * @param col column that the Board button is in.
+     */
+    private void addOnClickListenerToBoardButton(int id, int row, int col)
+    {
+        ImageButton b = findViewById(id);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (gameModel.hasStarted()) {
+                    if (gameModel.playPiece(row, col)) {
+                        updateAllSquares();
+                        checkIsGameOver();
                     }
                 }
             }
-        }
-
+        });
     }
 
-    public void updateBoard(){
-        for (int i = 0 ; i < 3; i++){
-            for(int j = 0 ; j < 3 ; j++)
-            {
-                int imgResId = android.R.color.transparent;
-                ImageButton b = findViewById(gameButtonIds[i][j]);
+    /**
+     * Updates the image on every square on the board to reflect the game status.
+     */
+    private void updateAllSquares() {
+        for (int row = 0 ; row < 3; row++) {
+            for(int col = 0 ; col < 3 ; col++) {
+                updateSquare(row, col);
+            }
+        }
+    }
 
-                if(game.getBoard().getPiece(i,j) == 'X'){
-                    imgResId = R.mipmap.x_piece_foreground;
+    /**
+     * Starts end activity if game is over.
+     */
+    private void checkIsGameOver() {
+        if (gameModel.hasTied() || gameModel.hasPlayerWon() || gameModel.hasAIWon()) {
+            startEndActivity();
+        }
+    }
 
-                }
-                else if(game.getBoard().getPiece(i,j) == 'O'){
-                    imgResId = R.mipmap.o_piece_foreground;
-                }
+    /**
+     * Updates the background of the Board Button
+     * to match the piece on the respective square in the gameModel.
+     * @param row the row the Board Button is in.
+     * @param col the column the Board Button is in.
+     */
+    private void updateSquare(int row, int col) {
+        ImageButton b = findViewById(BOARD_BUTTON_IDS[row][col]);
 
-                b.setBackgroundResource(imgResId);
+        char piece = gameModel.getBoard().getPiece(row,col);
+        int id = getImageResourceForPiece(piece);
+
+        b.setBackgroundResource(id);
+    }
+
+    /**
+     * Gets the image resource for a tic-tac-toe piece.
+     * @param piece char that is type of tic-tac-toe piece.
+     * @return ID of image resource corresponding to the piece type.
+     */
+    private int getImageResourceForPiece(char piece) {
+        switch (piece) {
+            case 'X':
+                return R.mipmap.x_piece_foreground;
+            case 'O':
+                return R.mipmap.o_piece_foreground;
+            default:
+                return android.R.color.transparent;
+        }
+    }
+
+    /**
+     * Converts the board from the finished game into a string.
+     * @return String representation of the game board.
+     */
+    private String boardToString() {
+        StringBuilder boardString = new StringBuilder();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                boardString.append(gameModel.getBoard().getPiece(i, j));
             }
         }
 
-        if(game.hasTied()|| game.hasAIWon()|| game.hasPlayerWon()){
-            makeIntent();
-        }
+        return boardString.toString();
     }
 
-   private String boardToString(){
-        StringBuilder boardString = new StringBuilder();
-
-       for (int i = 0 ; i < 3; i++){
-           for(int j = 0 ; j < 3 ; j++)
-           {
-               boardString.append(game.getBoard().getPiece(i, j));
-           }
-       }
-
-       return boardString.toString();
-   }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        game.startNewRound();
-        updateBoard();
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void makeIntent(){
+    /**
+     * Starts an EndActivity with an intent containing past game statistics.
+     */
+    private void startEndActivity() {
         Intent intent = new Intent(this, EndActivity.class);
-        intent.putExtra("player_wins", game.getPlayerWins());//fix
-        intent.putExtra("ai_wins", game.getAIWins());//fix
-        intent.putExtra("ties", game.getTies());
-        intent.putExtra("boardString",boardToString());
-        intent.putExtra("hasPlayerWon", game.hasPlayerWon());
-        intent.putExtra("hasTied", game.hasTied());
-        intent.putExtra("hasPlayerLost", game.hasAIWon());
-        startActivityForResult(intent, 0);
 
+        intent.putExtra("playerWins", gameModel.getPlayerWins());
+        intent.putExtra("aiWins", gameModel.getAIWins());
+        intent.putExtra("ties", gameModel.getTies());
+        intent.putExtra("hasPlayerWon", gameModel.hasPlayerWon());
+        intent.putExtra("hasTied", gameModel.hasTied());
+        intent.putExtra("hasAIWon", gameModel.hasAIWon());
+        intent.putExtra("boardString", boardToString());
+
+        startActivityForResult(intent, 0);
     }
 
 }

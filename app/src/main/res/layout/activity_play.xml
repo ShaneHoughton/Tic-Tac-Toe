@@ -18,7 +18,7 @@
         app:layout_constraintVertical_bias="0.16000003" />
 
     <TableLayout
-        android:id="@+id/ticTacToeBoard"
+        android:id="@+id/gameOverBoard"
         android:layout_width="394dp"
         android:layout_height="381dp"
         android:foreground="@drawable/board_image"
@@ -32,40 +32,46 @@
             android:layout_width="wrap_content"
             android:layout_height="96dp">
 
-            <Button
+            <ImageButton
                 android:id="@+id/r0c0"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/r0c1"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/r0c2"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="45dp">
 
-            <Button
+            <ImageButton
                 android:id="@+id/r1c0"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/r1c1"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/r1c2"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
 
         </TableRow>
 
@@ -73,20 +79,23 @@
             android:layout_width="match_parent"
             android:layout_height="37dp">
 
-            <Button
+            <ImageButton
                 android:id="@+id/r2c0"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/r2c1"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/r2c2"
                 android:layout_width="130dp"
-                android:layout_height="130dp" />
+                android:layout_height="130dp"
+                android:background="@android:color/transparent" />
 
         </TableRow>
 

@@ -2,12 +2,15 @@ package edu.moravian.csci299.tictactoe;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
@@ -22,8 +25,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             {R.id.r2c0, R.id.r2c1, R.id.r2c2}
     };
 
-    private Game game = new Game(); //make this private?
-    private int playerPieceId; //make this private?
+    private Game game = new Game();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
         String difficulty = getIntent().getStringExtra("difficulty");
         Log.e("PlayActivity", "got intent");
-        //TextView diffText = findViewById(R.id.difficultyText);
 
         makeButtons(gameButtonIds);
 
@@ -52,15 +53,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 throw new IllegalStateException("Unexpected value: " + difficulty);
         }
         game.setAI(ai);
-//        if (game.getPlayerPiece() == 'O'){
-//            playerPieceId = R.mipmap.o_piece;
-//        }
-//        else{
-//            playerPieceId = R.mipmap.x_piece;
-//        }
         game.startNewRound();
         updateBoard();
-
     }
 
 
@@ -71,7 +65,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int[] ints : IdList) {
             for (int j = 0; j < IdList.length; j++) {
-                Button button = findViewById(ints[j]);
+                ImageButton button = findViewById(ints[j]);
                 button.setOnClickListener(this);
             }
         }
@@ -101,49 +95,56 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0 ; i < 3; i++){
             for(int j = 0 ; j < 3 ; j++)
             {
-                int imgResId;
-                Button b = findViewById(gameButtonIds[i][j]);
+                int imgResId = android.R.color.transparent;
+                ImageButton b = findViewById(gameButtonIds[i][j]);
+
                 if(game.getBoard().getPiece(i,j) == 'X'){
-                    imgResId = R.drawable.x_foreground;
+                    imgResId = R.mipmap.x_piece_foreground;
+
                 }
                 else if(game.getBoard().getPiece(i,j) == 'O'){
-                    imgResId = R.drawable.o_foreground;
-                }
-                else{
-                    imgResId = R.drawable.ic_launcher_foreground;
+                    imgResId = R.mipmap.o_piece_foreground;
                 }
 
                 b.setBackgroundResource(imgResId);
             }
         }
-        if(game.hasTied()||game.hasAIWon()||game.hasPlayerWon()){
-            Log.e("updateBoard", "making intent call" );
+
+        if(game.hasTied()|| game.hasAIWon()|| game.hasPlayerWon()){
             makeIntent();
-            game.startNewRound();
-            updateBoard();
         }
     }
 
-    private char[] boardToArray(){
-        char[] boardArray = new char[9];
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                boardArray[i + j] = game.getBoard().getPiece(i,j);
-            }
-        }
-        return boardArray;
+   private String boardToString(){
+        StringBuilder boardString = new StringBuilder();
+
+       for (int i = 0 ; i < 3; i++){
+           for(int j = 0 ; j < 3 ; j++)
+           {
+               boardString.append(game.getBoard().getPiece(i, j));
+           }
+       }
+
+       return boardString.toString();
+   }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        game.startNewRound();
+        updateBoard();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void makeIntent(){
         Intent intent = new Intent(this, EndActivity.class);
-        intent.putExtra("player_wins", game.getPlayerWins());
-        intent.putExtra("ai_wins", game.getAIWins());
+        intent.putExtra("player_wins", game.getPlayerWins());//fix
+        intent.putExtra("ai_wins", game.getAIWins());//fix
         intent.putExtra("ties", game.getTies());
-        intent.putExtra("String","hello");
+        intent.putExtra("boardString",boardToString());
         intent.putExtra("hasPlayerWon", game.hasPlayerWon());
         intent.putExtra("hasTied", game.hasTied());
         intent.putExtra("hasPlayerLost", game.hasAIWon());
-        startActivity(intent);
+        startActivityForResult(intent, 0);
 
     }
 

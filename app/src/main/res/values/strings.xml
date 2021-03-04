@@ -6,6 +6,8 @@
     <string name="easy">easy</string>
     <string name="medium">medium</string>
     <string name="hard">hard</string>
+    <string name="player_x">You are X</string>
+    <string name="player_o">You are O</string>
     <string name="play_again">Play Again</string>
     <string name="game_over">Game Over!</string>
     <string name="player_wins">Player Wins: </string>

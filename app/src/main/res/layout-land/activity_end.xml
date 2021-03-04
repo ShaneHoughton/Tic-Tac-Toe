@@ -2,15 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#000000"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EndActivity">
+    android:background="#020000">
 
     <TableLayout
         android:id="@+id/finalGameBoard"
-        android:layout_width="366dp"
-        android:layout_height="342dp"
+        android:layout_width="182dp"
+        android:layout_height="176dp"
         android:foreground="@drawable/board_image"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,18 +23,18 @@
 
             <ImageView
                 android:id="@+id/imageR0C0"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
             <ImageView
                 android:id="@+id/imageR0C1"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
             <ImageView
                 android:id="@+id/imageR0C2"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
         </TableRow>
 
@@ -45,18 +44,18 @@
 
             <ImageView
                 android:id="@+id/imageR1C0"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
             <ImageView
                 android:id="@+id/imageR1C1"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
             <ImageView
                 android:id="@+id/imageR1C2"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
         </TableRow>
 
@@ -66,18 +65,18 @@
 
             <ImageView
                 android:id="@+id/imageR2C0"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
             <ImageView
                 android:id="@+id/imageR2C1"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
             <ImageView
                 android:id="@+id/imageR2C2"
-                android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
         </TableRow>
 
@@ -101,26 +100,24 @@
         android:text="@string/game_over"
         android:textColor="#E91E63"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/playAgainButton"
+        app:layout_constraintBottom_toTopOf="@+id/gameStatus"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/gameInfo"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:drawablePadding="@dimen/cardview_compat_inset_shadow"
         android:fontFamily="@font/caveat_bold"
         android:textColor="#03A9F4"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/playAgainButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameOver"
-        app:layout_constraintVertical_bias="0.83" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/gameStatus"
@@ -128,11 +125,10 @@
         android:layout_height="34dp"
         android:fontFamily="@font/caveat_bold"
         android:textColor="#03A9F4"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/gameInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameOver"
-        app:layout_constraintVertical_bias="0.0" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998" />
 </androidx.constraintlayout.widget.ConstraintLayout>

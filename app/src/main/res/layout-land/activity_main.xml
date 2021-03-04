@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    tools:context=".MainActivity">
+    android:background="#020000">
 
     <Button
         android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="154dp"
+        android:layout_height="43dp"
         android:background="#E91E63"
         android:backgroundTint="#E91E63"
         android:text="@string/start_button"
@@ -19,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.86" />
+        app:layout_constraintVertical_bias="0.96" />
 
     <Spinner
         android:id="@+id/diffLevelSpinner"
@@ -32,9 +31,10 @@
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/startButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText"
+        app:layout_constraintVertical_bias="0.79"
         tools:visibility="visible" />
 
     <TextView
@@ -48,8 +48,8 @@
         app:layout_constraintBottom_toTopOf="@+id/diffLevelSpinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText"
+        app:layout_constraintVertical_bias="0.86" />
 
     <TextView
         android:id="@+id/welcomeText"
@@ -59,22 +59,40 @@
         android:text="@string/welcome"
         android:textColor="#03A9F4"
         android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.110000014" />
+
+    <TextView
+        android:id="@+id/GameName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/caveat_bold"
+        android:text="@string/app_name"
+        android:textColor="#E91E63"
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/chooseDifficulty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19999999" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
 
     <ImageView
-        android:id="@+id/gameLogo"
-        android:layout_width="293dp"
-        android:layout_height="428dp"
+        android:id="@+id/OImage"
+        android:layout_width="261dp"
+        android:layout_height="241dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.227"
-        app:srcCompat="@drawable/start_screen_art" />
+        app:srcCompat="@mipmap/o_piece_foreground" />
 
+    <ImageView
+        android:id="@+id/XImage"
+        android:layout_width="249dp"
+        android:layout_height="239dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/x_piece_foreground" />
 </androidx.constraintlayout.widget.ConstraintLayout>

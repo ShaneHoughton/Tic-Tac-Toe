@@ -42,11 +42,10 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         gameModel = new ViewModelProvider(this).get(Game.class);
         difficulty = getIntent().getStringExtra("difficulty");
 
-        updateDifficultyTextView();
         addOnClickListenersToBoardButtons();
         initializeGameModel();
         updateAllSquares();
-        checkIsGameOver();
+        updatePlayerTextView();
     }
 
     /**
@@ -60,21 +59,26 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
 
         gameModel.startNewRound();
+        updatePlayerTextView();
         updateAllSquares();
-        checkIsGameOver();
     }
 
     @Override
     public void onClick(View v) { /* IGNORE */}
 
     /**
-     * Updates the Difficulty TextView to display the difficulty.
+     * Updates the Player's piece TextView to inform the player what their piece is.
      */
-    private void updateDifficultyTextView() {
-        String s = difficulty.substring(0, 1).toUpperCase() + difficulty.substring(1) + " Mode";
+    private void updatePlayerTextView() {
+        TextView v = findViewById(R.id.playerPieceText);
+        char playerPiece = gameModel.getPlayerPiece();
 
-        TextView v = findViewById(R.id.difficultyText);
-        v.setText(s);
+        if(playerPiece == 'O')
+            v.setText(R.string.player_o);
+
+        else if(playerPiece == 'X'){
+            v.setText(R.string.player_x);
+        }
     }
 
     /**
